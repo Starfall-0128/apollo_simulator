@@ -745,6 +745,7 @@ double LatController::ComputeFeedForward(double ref_curvature) const {
   const double kv =
       lr_ * mass_ / 2 / cf_ / wheelbase_ - lf_ * mass_ / 2 / cr_ / wheelbase_
 
+    f
   // Calculate the feedforward term of the lateral controller; then change it
   // from rad to %
   const double v = injector_->vehicle_state()->linear_velocity();
@@ -757,7 +758,7 @@ double LatController::ComputeFeedForward(double ref_curvature) const {
     steer_angle_feedforwardterm =
         (wheelbase_ * ref_curvature + kv * v * v * ref_curvature -
          matrix_k_(0, 2)*
-             (lr_ * ref_curvature -
+             (lr_ / 2 / cf_ -
               lf_ * mass_ * v * v * ref_curvature / 2 / cr_ / wheelbase_)) *
         180 / M_PI * steer_ratio_ / steer_single_direction_max_degree_ * 100;
   }
